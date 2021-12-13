@@ -14,7 +14,16 @@ io.on('connection', (client) => {
             });
         }
         let personas = usuarios.agregarPersona(client.id, data.nombre);
+        client.broadcast.emit('listaPersona', usuarios.getPersonas());
         callback(personas);
+    });
+
+
+    client.on('disconnect', () => {
+        let personaBorrada = usuarios.borrarPersona( client.id );
+        client.broadcast.emit('crearMensaje', { usuario: 'Administrador', mensaje: `${personaBorrada.nombre} abandono el chat` });
+        client.broadcast.emit('listaPersona', usuarios.getPersonas());
+
     });
 
 });
