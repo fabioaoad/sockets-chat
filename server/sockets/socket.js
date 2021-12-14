@@ -7,13 +7,18 @@ const usuarios = new Usuarios();
 io.on('connection', (client) => {
 
     client.on('entrarChat', (data, callback) => {
-        if (  !data.nombre ){
+        console.log(data);
+        if (  !data.nombre || !data.sala ){
             return callback({
                error: true,
-               mensaje: 'El nombre es necesario'
+               mensaje: 'El nombre/sala es necesario'
             });
         }
-        let personas = usuarios.agregarPersona(client.id, data.nombre);
+
+        // para conectar a un usuario a una sala
+        client.join(data.sala);
+
+        let personas = usuarios.agregarPersona(client.id, data.nombre, data.sala);
 
         // Informo lista de personas conectadas
         client.broadcast.emit('listaPersona', usuarios.getPersonas());
