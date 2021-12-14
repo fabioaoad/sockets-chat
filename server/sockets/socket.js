@@ -7,7 +7,6 @@ const usuarios = new Usuarios();
 io.on('connection', (client) => {
 
     client.on('entrarChat', (data, callback) => {
-        console.log(data);
         if (  !data.nombre || !data.sala ){
             return callback({
                error: true,
@@ -18,18 +17,18 @@ io.on('connection', (client) => {
         // para conectar a un usuario a una sala
         client.join(data.sala);
 
-        let personas = usuarios.agregarPersona(client.id, data.nombre, data.sala);
+        usuarios.agregarPersona(client.id, data.nombre, data.sala);
 
         // Informo lista de personas conectadas
-        client.broadcast.emit('listaPersona', usuarios.getPersonas());
-        callback(personas);
+        client.broadcast.to(data.sala).emit('listaPersona', usuarios.getPersonaPorSala(data.sala));
+        callback(usuarios.getPersonaPorSala(data.sala));
     });
 
 
     client.on('crearMensaje', (data) =>{
         let persona = usuarios.getPersona(client.id);
        let mensaje = crearMensaje( persona.nombre, data.mensaje);
-       client.broadcast.emit('crearMensaje', mensaje);
+       client.broadcast.to(persona.sala).emit('crearMensaje', mensaje);
     });
 
 
@@ -37,10 +36,10 @@ io.on('connection', (client) => {
         let personaBorrada = usuarios.borrarPersona( client.id );
 
         // Informo a todos que se desconecto cierto usuario
-        client.broadcast.emit('crearMensaje', crearMensaje('Administrador', `${ personaBorrada.nombre } salió`));
+        client.broadcast.to(personaBorrada.sala).emit('crearMensaje', crearMensaje('Administrador', `${ personaBorrada.nombre } salió`));
 
         // Informo lista de personas conectadas
-        client.broadcast.emit('listaPersona', usuarios.getPersonas());
+        client.broadcast.to(personaBorrada.sala).emit('listaPersona', usuarios.getPersonaPorSala(personaBorrada.sala));
 
     });
 

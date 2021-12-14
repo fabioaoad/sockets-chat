@@ -30,7 +30,8 @@ class Usuarios {
 
 
     getPersonaPorSala( sala ){
-        // ....
+        let personaEnSala = this.personas.filter( persona => persona.sala === sala);
+        return personaEnSala;
     }
 
 
