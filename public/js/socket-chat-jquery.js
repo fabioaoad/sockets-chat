@@ -31,17 +31,17 @@ function renderizarUsuarios( personas ){ // [ {}, {},...,{} ]
 
 }
 
-function renderizarMensajes( mensaje ){
+function renderizarMensajes( mensaje, yo ){
 
     var html = '';
 
    html += ' <li class="animated fadeIn">';
-   html += '    <div className="chat-img"><img src="assets/images/users/1.jpg" alt="user"/></div>';
-   html += '    <div className="chat-content">';
+   html += '    <div class="chat-img"><img src="assets/images/users/1.jpg" alt="user"/></div>';
+   html += '    <div class="chat-content">';
    html += '       <h5>'+ mensaje.nombre +'</h5>';
-   html += '         <div className="box bg-light-info">'+ mensaje.mensaje +'</div>';
+   html += '         <div class="box bg-light-info">'+ mensaje.mensaje +'</div>';
    html += '    </div>';
-   html +=   ' <div className="chat-time">10:56 am</div>';
+   html +=   ' <div class="chat-time">10:56 am</div>';
    html += '  </li>';
 
 
