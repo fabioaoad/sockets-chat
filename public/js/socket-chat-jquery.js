@@ -2,11 +2,12 @@ var params = new URLSearchParams(window.location.search);
 var nombre = params.get('nombre');
 var sala = params.get('sala');
 
-// Referncias de jQuery
+// Referencias de jQuery
 var divUsuarios = $('#divUsuarios');
 var formEnviar = $('#formEnviar');
 var txtMensaje = $('#txtMensaje');
 var divChatbox = $('#divChatbox');
+
 
 
 // Funciones para renderizar usuarios
@@ -25,6 +26,7 @@ function renderizarUsuarios( personas ){ // [ {}, {},...,{} ]
       html +=   '<a data-id="'+ personas[i].id +'" href="javascript:void(0)"><img src="assets/images/users/1.jpg" alt="user-img" className="img-circle"> <span>'+ personas[i].nombre +'<small className="text-success">online</small></span></a>';
       html +=   '</li>';
     }
+
 
     divUsuarios.html(html);
 
@@ -64,7 +66,6 @@ function renderizarMensajes( mensaje, yo ){
         html +=   ' <div class="chat-time">'+ hora +'</div>';
         html += '  </li>';
     }
-
 
 
 
